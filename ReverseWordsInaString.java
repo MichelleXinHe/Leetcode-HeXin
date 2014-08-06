@@ -1,4 +1,4 @@
-public class Solution {
+public class ReverseWordsInaString {
     //in all the test cases, if an input="a    b   "
     //the expected output is="b a"
     //all the space between a and b and appending at the end of the string should be ignored
