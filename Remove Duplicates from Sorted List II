@@ -1,0 +1,78 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+ 
+public class Solution {
+    //recursive method
+    //time O(n), space O(1)??unsure about the space complexity
+    //find the first node that appears once in this list
+    //then use the next node as the head to reuse this method
+    //the return result of the next node will be the next node of the first node
+    public ListNode deleteDuplicates1(ListNode head) {
+        if(head==null||head.next==null) return head;
+        ListNode h=null, next=head.next;
+        int last=head.val;
+        //special case
+        if(next.val!=last) h=head;
+        else{
+            while(next!=null){
+                if(next.val==last) next=next.next;
+                else{
+                    if((next.next!=null&&next.next.val!=next.val)||next.next==null){
+                        h=next;
+                        break;
+                    }else{
+                        last=next.val;
+                        next=next.next.next;
+                    }
+                }
+            }//while
+            //if(next==null) return null;//each element in the whole is has duplicate
+        }
+        
+        if(h!=null) h.next=deleteDuplicates(h.next);
+        return h;
+    }
+    
+    //interative method
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head==null||head.next==null) return head;
+        ListNode h=null, hh=null;
+        ListNode r1=head, r2=head.next;
+        int last=head.val;
+        int c=1;
+        while(r1!=null){
+            if(r2!=null&&r2.val==last){
+                c++;
+                r2=r2.next;
+            }else{
+                if(c==1){
+                    if(h!=null){
+                        h.next=r1;
+                        h=h.next;
+                    }else{
+                        h=r1;
+                        hh=h;
+                    }
+                }
+                r1=r2;
+                if(r2!=null) r2=r2.next;
+                if(r1!=null){
+                    last=r1.val;
+                    c=1;
+                }
+            }
+        }
+        if(h!=null) h.next=null;
+        return hh;
+    }
+    
+}
